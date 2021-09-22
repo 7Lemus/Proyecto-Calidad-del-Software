@@ -1,14 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from .forms import Pago
 from .models import Producto
 import json
 
 
-def index(request):
+def productos(request):
     context = {
         'products': Producto.objects.all()
     }
-    return render(request, 'catalog/index.html', context)
+    return render(request, 'tienda/productos.html', context)
 
 
 def carrito(request):
@@ -21,9 +22,10 @@ def carrito(request):
                 'subtotal': product.precio * v['quantity'],
                 'product': product
             })
-    return render(request, 'catalog/carrito.html', { 'carrito': carrito })
+    return render(request, 'tienda/carrito.html', { 'carrito': carrito })
 
 
+@login_required(login_url='/acceder/')
 def pedido(request):
     if 'carrito' not in request.COOKIES or request.COOKIES['carrito'] == '{}':
         return redirect('/tienda/carrito/')
@@ -46,8 +48,9 @@ def pedido(request):
             return redirect('/tienda/pedido/creado/')
     else:
         context['form'] = Pago()
-    return render(request, 'catalog/pedido.html', context)
+    return render(request, 'tienda/pedido.html', context)
 
 
+@login_required(login_url='/acceder/')
 def ver_pedido(request):
-    return render(request, 'catalog/ver_pedido.html', {})
+    return render(request, 'tienda/ver_pedido.html', {})

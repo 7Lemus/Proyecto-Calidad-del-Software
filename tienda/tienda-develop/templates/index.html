@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Qué va beer{% endblock title %}
+
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div id="bienvenido" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    {% for i in carousel %}
+                    <button type="button" data-bs-target="#bienvenido" data-bs-slide-to="{{ i.id }}" {% if i.extra_class %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ i.id }}"></button>
+                    {% endfor %}
+                </div>
+                <div class="carousel-inner">
+                    {% for i in carousel %}
+                    <div class="carousel-item {{ i.extra_class }}">
+                        <img src="{{ i.src }}" class="d-block w-100" alt="{{ i.alt }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#bienvenido" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bienvenido" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

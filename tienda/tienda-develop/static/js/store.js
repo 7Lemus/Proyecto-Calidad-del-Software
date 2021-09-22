@@ -95,6 +95,14 @@ function remove_from_carrito(product, price=0) {
     set_carrito(carrito);
 }
 
+function add_class(elem_id, elem_class) {
+    document.getElementById(elem_id).classList.add(elem_class);
+}
+
+function remove_class(elem_id, elem_class) {
+    document.getElementById(elem_id).classList.remove(elem_class);
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
     update_carrito(get_carrito());
 });
