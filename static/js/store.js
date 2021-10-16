@@ -103,6 +103,11 @@ function remove_class(elem_id, elem_class) {
     document.getElementById(elem_id).classList.remove(elem_class);
 }
 
+function formatear_con_decimales(id){
+    let el = document.getElementById(id);
+    el.value = parseFloat(el.value).toFixed(2)
+}
+
 document.addEventListener("DOMContentLoaded", function(event) {
     update_carrito(get_carrito());
 });

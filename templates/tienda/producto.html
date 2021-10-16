@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="my-3 py-3 d-grid gap-2">
-                        <button type="button" class="btn btn-warning" onclick="add_to_carrito({{ product.id }});">Añadir al carrito</button>
+                        <button type="button" class="btn btn-warning" onclick="add_to_carrito({{ product.id }});" {% if product.unidades == 0 %}disabled{% endif %}>Añadir al carrito</button>
                         <a class="btn btn-primary" href="/tienda/">Volver al catálogo</a>
                     </div>
                 </div>
@@ -32,6 +32,12 @@
                         <div style='text-align: justify; white-space: pre-wrap;'>{{ product.descripcion }}</div>
                         <hr>
                         <div>Precio unitario: <strong>{{ product.moneda }}. {{ product.precio }}</strong></div>
+                        <hr>
+                        {% if product.unidades == 0 %}
+                        <p class="text-danger">Producto agotado</p>
+                        {% elif product.unidades <= 10 %}
+                        <p class="text-primary">Últimas unidades</p>
+                        {% endif %}
                     </div>
                 </div>
             </div>

@@ -176,9 +176,10 @@ def ver_compra(request, id):
     if request.user.tipo != 'C':
         messages.error(request, 'Acceso sólo para clientes.', extra_tags='danger')
         return redirect('/perfil/')
-    c = Compra.objects.get(id=id, usuario=request.user)
+    c = Compra.objects.filter(id=id, usuario=request.user)
     if not c:
         return redirect('/perfil/compras/')
+    c = c[0]
     d = Detalle.objects.filter(compra=c)
     context = {
         'section': 'compras',
@@ -192,3 +193,22 @@ def ver_compra(request, id):
         }
     }
     return render(request, 'usuario/perfil.compras.detalle.html', context)
+
+
+@login_required(login_url='/acceder/')
+def cancelar_compra(request, id):
+    if request.user.tipo != 'C':
+        messages.error(request, 'Acceso sólo para clientes.', extra_tags='danger')
+        return redirect('/perfil/')
+    c = Compra.objects.filter(id=id, usuario=request.user)
+    if not c:
+        return redirect('/perfil/compras/')
+    c = c[0]
+    detalles = Detalle.objects.filter(compra=c)
+    for d in detalles:
+        p = d.producto
+        p.unidades += d.cantidad
+        p.save()
+    c.estado = '4'
+    c.save()
+    return redirect('/perfil/compras/')

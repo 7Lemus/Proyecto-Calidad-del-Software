@@ -27,7 +27,10 @@
                     Total: <strong>Q. {{ compra.total }}</strong>
                 </p>
                 <div class="text-center">
-                    <a href="/perfil/compras/detalle/{{ compra.id }}" class="btn btn-warning">Ver detalle</a>
+                    <a href="/perfil/compras/detalle/{{ compra.id }}/" class="btn btn-warning">Ver detalle</a>
+                    {% if compra.estado == '1' %}
+                    <a href="/perfil/compras/cancelar/{{ compra.id }}/" class="btn btn-danger">Cancelar pedido</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

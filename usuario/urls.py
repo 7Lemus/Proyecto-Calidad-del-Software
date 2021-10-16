@@ -13,5 +13,6 @@ urlpatterns = [
     path('perfil/direcciones/eliminar/<int:id>/', views.eliminar_direccion),
     path('perfil/compras/', views.compras),
     path('perfil/compras/detalle/<int:id>/', views.ver_compra),
+    path('perfil/compras/cancelar/<int:id>/', views.cancelar_compra),
     path('salir/', views.salir),
 ]

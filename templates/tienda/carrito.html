@@ -38,6 +38,15 @@
                                 </div>
                             </div>
                         </div>
+                        {% if item.product.unidades <= item.quantity %}
+                        <div class="text-danger">
+                            <p>
+                                Actualmente se tienen disponibles sólo <strong>{{ item.product.unidades }} unidades</strong>,
+                                por favor, reduce la cantidad en tu carrito e ingresa el pedido nuevamente.<br>
+                                Recuerda que las unidades pueden alterarse por pedidos ingresados o cancelados de otros usuarios.
+                            </p>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>

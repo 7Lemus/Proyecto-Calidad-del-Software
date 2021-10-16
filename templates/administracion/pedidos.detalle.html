@@ -6,10 +6,10 @@
         <div class="col-md-9 container">
             <div class="row pt-2">
                 <label class="col-sm-2 text-end">
-                    <strong>Tienda:</strong>
+                    <strong>Fábrica:</strong>
                 </label>
                 <div class="col-sm-9">
-                    Qué va beer
+                    {{ detalles.0.producto.fabrica }}
                 </div>
             </div>
             <div class="row pt-2">
@@ -17,7 +17,7 @@
                     <strong>Estado:</strong>
                 </label>
                 <div class="col-sm-9">
-                    {{ estados|get_value:compra.estado }}
+                    {{ estados|get_value:pedido.estado }}
                 </div>
             </div>
             <div class="row pt-2">
@@ -25,49 +25,24 @@
                     <strong>Fecha:</strong>
                 </label>
                 <div class="col-sm-9">
-                    {{ compra.fecha }}
+                    {{ pedido.fecha }}
                 </div>
             </div>
+
             <div class="row pt-2">
                 <label class="col-sm-2 text-end">
-                    <strong>Nombre:</strong>
+                    <strong>Usuario:</strong>
                 </label>
                 <div class="col-sm-9">
-                    {{ compra.nombre }}
+                    {{ pedido.usuario }}
                 </div>
             </div>
-            <div class="row pt-2">
-                <label class="col-sm-2 text-end">
-                    <strong>NIT:</strong>
-                </label>
-                <div class="col-sm-9">
-                    {{ compra.nit }}
-                </div>
-            </div>
-            <div class="row pt-2">
-                <label class="col-sm-2 text-end">
-                    <strong>Dirección:</strong>
-                </label>
-                <div class="col-sm-9">
-                    {{ compra.direccion }}
-                </div>
-            </div>
-            {% if compra.telefono %}
-            <div class="row pt-2">
-                <label class="col-sm-2 text-end">
-                    <strong>Teléfono:</strong>
-                </label>
-                <div class="col-sm-9">
-                    {{ compra.telefono }}
-                </div>
-            </div>
-            {% endif %}
             <br>
             <table class="table table-hover">
                 <thead>
                     <th>Cant.</th>
                     <th>Descripción</th>
-                    <th>P. Unitario</th>
+                    <th>P. de fábrica</th>
                     <th>Subtotal</th>
                 </thead>
                 <tbody>
@@ -75,7 +50,7 @@
                     <tr>
                         <td>{{ item.cantidad }}</td>
                         <td>{{ item.producto.nombre }}</td>
-                        <td>{{ item.producto.moneda }} {{ item.producto.precio }}</td>
+                        <td>{{ item.producto.moneda }} {{ item.producto.precio_pedido }}</td>
                         <td>{{ item.producto.moneda }} {{ item.total }}</td>
                     </tr>
                     {% endfor %}
@@ -84,14 +59,13 @@
                     <th></th>
                     <th></th>
                     <th>Total</th>
-                    <th>Q {{ compra.total }}</th>
+                    <th>Q {{ pedido.total }}</th>
                 </tfoot>
             </table>
             <div class="text-center pt-2">
-                <a href="/perfil/compras/" class="btn btn-warning btn-block">Volver al listado de compras</a>
-                {% if compra.estado == '1' %}
-                <a href="/perfil/compras/cancelar/{{ compra.id }}/" class="btn btn-danger">Cancelar pedido</a>
-                {% endif %}
+                <a href="/administracion/pedidos/" class="btn btn-warning btn-block">
+                    Volver al listado de pedidos
+                </a>
             </div>
         </div>
     </div>

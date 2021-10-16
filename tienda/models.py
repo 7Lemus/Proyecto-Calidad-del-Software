@@ -37,8 +37,8 @@ class Producto(models.Model):
 
 class Pedido(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=6, decimal_places=2)
-    estado = models.CharField(max_length=1, choices=[('I', 'Ingresada'), ('C', 'Cancelada'), ('E', 'Entregada')], default='I')
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    estado = models.CharField(max_length=1, choices=[('I', 'Ingresada'), ('C', 'Cancelada'), ('R', 'Recibida')], default='I')
     usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -47,7 +47,7 @@ class Pedido(models.Model):
 
 class Compra(models.Model):
     fecha = models.DateTimeField(auto_now_add=True)
-    total = models.DecimalField(max_digits=6, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     estado = models.CharField(max_length=1, choices=[('1', 'Procesando'), ('2', 'En camino'), ('3', 'Entregado'), ('4', 'Cancelado')], default='1')
     usuario = models.ForeignKey('Usuario', on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
@@ -61,7 +61,7 @@ class Compra(models.Model):
 
 class Detalle(models.Model):
     cantidad = models.IntegerField()
-    total = models.DecimalField(max_digits=5, decimal_places=2)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
     compra = models.ForeignKey('Compra', on_delete=models.CASCADE, null=True)
     pedido = models.ForeignKey('Pedido', on_delete=models.CASCADE, null=True)
     producto = models.ForeignKey('Producto', on_delete=models.CASCADE)

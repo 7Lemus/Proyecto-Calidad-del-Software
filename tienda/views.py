@@ -8,7 +8,7 @@ import json
 
 def productos(request):
     context = {
-        'products': Producto.objects.all()
+        'products': Producto.objects.filter(estado='A')
     }
     return render(request, 'tienda/productos.html', context)
 
@@ -49,6 +49,7 @@ def crear_compra(request):
         return redirect('/perfil/direcciones/registrar/')
     detalle_compra = []
     total = 0
+    exceeds_units = False
     for k, v in json.loads(request.COOKIES['carrito']).items():
         product = Producto.objects.get(pk=int(k))
         total += product.precio * v['quantity']
@@ -57,8 +58,13 @@ def crear_compra(request):
             'subtotal': product.precio * v['quantity'],
             'product': product
         })
+        if v['quantity'] > product.unidades:
+            exceeds_units = True
     form = NuevaCompra()
     if (request.method == 'POST'):
+        if exceeds_units:
+            messages.error(request, 'No se puede realizar el pedido, uno o más de los productos excede las unidades disponibles.', extra_tags='danger')
+            return redirect('/tienda/carrito/')
         form = NuevaCompra(request.POST)
         if form.is_valid():
             c = Compra(
@@ -78,6 +84,9 @@ def crear_compra(request):
                     producto = detalle['product']
                 )
                 d.save()
+                p = detalle['product']
+                p.unidades -= detalle['quantity']
+                p.save()
             response = redirect('/tienda/compra/exitosa')
             response.delete_cookie('carrito')
             return response
